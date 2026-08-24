@@ -6,6 +6,11 @@
     <title>@yield('title', 'Social Commerce UMKM Desa Bojongsawah')</title>
     <meta name="description" content="Platform Social Commerce UMKM Desa Bojongsawah. Temukan produk lokal berkualitas dan pesan langsung via WhatsApp.">
     
+    <!-- Favicon Icon Desa Bojongsawah -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-bojongsawah.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo-bojongsawah.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-bojongsawah.png') }}">
+
     <!-- Google Fonts Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
