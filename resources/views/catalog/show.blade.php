@@ -105,7 +105,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     @foreach($relatedProducts as $rp)
                         <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow space-y-3">
-                            <img src="{{ $rp->image ? asset('storage/' . $rp->image) : asset('images/sawah-hero.jpg') }}" class="h-36 w-full object-cover rounded-xl">
+                            <img src="{{ $rp->image ? asset('storage/' . $rp->image) : asset('images/sawah-hero.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="h-36 w-full object-cover rounded-xl">
                             <h4 class="font-bold text-sm text-slate-800 truncate">{{ $rp->name }}</h4>
                             <p class="text-sm font-black text-emerald-600">{{ $rp->formatted_price }}</p>
                             <a href="{{ route('catalog.show', $rp->id) }}" class="block text-center py-2 bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-xs font-bold rounded-xl transition-colors">

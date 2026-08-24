@@ -432,7 +432,7 @@
                             $fpWa = \App\Helpers\WhatsappHelper::makeProductOrderUrl($fpPhone, $fpStore, $fp->name, $fp->price);
                         @endphp
                         <div class="flex items-center space-x-3 p-2 hover:bg-slate-50 rounded-2xl transition-colors">
-                            <img src="{{ $fp->image ? asset('storage/' . $fp->image) : asset('images/sawah-hero.jpg') }}" class="w-14 h-14 object-cover rounded-xl shadow-sm">
+                            <img src="{{ $fp->image ? asset('storage/' . $fp->image) : asset('images/sawah-hero.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-14 h-14 object-cover rounded-xl shadow-sm">
                             <div class="flex-1 min-w-0">
                                 <h4 class="text-xs font-bold text-slate-800 truncate">{{ $fp->name }}</h4>
                                 <p class="text-[11px] text-slate-400 truncate">{{ $fpStore }}</p>
