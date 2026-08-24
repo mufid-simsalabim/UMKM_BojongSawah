@@ -27,6 +27,9 @@
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+                <a href="{{ route('admin.users.index') }}" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
+                    <i class="fa-solid fa-users-gear mr-2"></i> Kelola Pengguna
+                </a>
                 <a href="{{ route('admin.posts.index') }}" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
                     <i class="fa-solid fa-newspaper mr-2"></i> Kelola Postingan
                 </a>

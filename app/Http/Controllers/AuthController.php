@@ -36,6 +36,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::user();
 
+            if ($user->isSuspended()) {
+                Auth::logout();
+                return back()->with('error', 'Akun Anda saat ini DITANGGUHKAN oleh Admin Desa Bojongsawah. Silakan hubungi kantor desa jika ini adalah kekeliruan.');
+            }
+
             if ($user->isUmkm() && !$user->isApproved()) {
                 Auth::logout();
                 if ($user->status === 'pending') {

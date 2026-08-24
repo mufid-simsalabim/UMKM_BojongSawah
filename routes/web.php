@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UmkmController;
@@ -103,6 +104,16 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->as('admin.
     Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
     Route::put('/posts/{id}', [AdminController::class, 'updatePost'])->name('posts.update');
     Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('posts.destroy');
+
+    // Admin User & UMKM Account Management & Suspension Routes
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
+    Route::post('/users/{id}/suspend', [AdminUserController::class, 'suspend'])->name('users.suspend');
+    Route::post('/users/{id}/unsuspend', [AdminUserController::class, 'unsuspend'])->name('users.unsuspend');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 });
 
 // UMKM Protected Routes

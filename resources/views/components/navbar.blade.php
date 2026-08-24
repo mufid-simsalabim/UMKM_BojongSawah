@@ -144,6 +144,9 @@
                                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
                                     <i class="fa-solid fa-gauge-high mr-2 text-slate-400"></i> Dashboard Admin
                                 </a>
+                                <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
+                                    <i class="fa-solid fa-users-gear mr-2 text-slate-400"></i> Kelola Akun Pengguna
+                                </a>
                                 <a href="{{ route('admin.posts.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
                                     <i class="fa-solid fa-newspaper mr-2 text-slate-400"></i> Kelola Postingan Admin
                                 </a>
@@ -213,6 +216,9 @@
                 @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-xl bg-purple-100 text-purple-900 font-bold">
                         <i class="fa-solid fa-user-shield mr-2"></i> Dashboard Admin
+                    </a>
+                    <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold">
+                        <i class="fa-solid fa-users-gear mr-2"></i> Kelola Akun Pengguna
                     </a>
                     <a href="{{ route('admin.posts.index') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold">
                         <i class="fa-solid fa-newspaper mr-2"></i> Kelola Postingan Admin
