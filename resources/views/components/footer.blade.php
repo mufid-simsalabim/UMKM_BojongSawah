@@ -5,14 +5,14 @@
             <!-- Col 1: Village Identity & Logo -->
             <div class="space-y-4">
                 <div class="flex items-center space-x-3">
-                    <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojong Sawah" class="h-12 w-auto bg-white p-1 rounded-lg">
+                    <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojongsawah" class="h-12 w-auto bg-white p-1 rounded-lg">
                     <div>
-                        <h3 class="text-white font-extrabold text-lg">Desa Bojong Sawah</h3>
+                        <h3 class="text-white font-extrabold text-lg">Desa Bojongsawah</h3>
                         <p class="text-emerald-400 text-xs font-semibold">See Kasep</p>
                     </div>
                 </div>
                 <p class="text-xs text-slate-400 leading-relaxed">
-                    Platform Social Commerce resmi untuk memajukan UMKM lokal Desa Bojong Sawah. Menghubungkan produk unggulan desa langsung ke pembeli via WhatsApp.
+                    Platform Social Commerce resmi untuk memajukan UMKM lokal Desa Bojongsawah. Menghubungkan produk unggulan desa langsung ke pembeli via WhatsApp.
                 </p>
                 <div class="inline-block bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl text-[11px] text-emerald-300 font-semibold">
                     <i class="fa-solid fa-star text-amber-400 mr-1"></i> KASEP: Kreatif, Agamis, Sehat, Edukatif, Produktif
@@ -34,10 +34,10 @@
             <div class="space-y-3">
                 <h4 class="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-2">Kantor Desa</h4>
                 <div class="overflow-hidden rounded-xl border border-slate-700 group shadow-md">
-                    <img src="{{ asset('images/kantor-desa.jpg') }}" alt="Kantor Desa Bojong Sawah" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <img src="{{ asset('images/kantor-desa.jpg') }}" alt="Kantor Desa Bojongsawah" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300">
                 </div>
                 <p class="text-[11px] text-slate-400">
-                    <i class="fa-solid fa-location-dot text-emerald-500 mr-1"></i> Jalan Raya Desa Bojong Sawah, Kec. Kebonpedes, Kab. Sukabumi, Jawa Barat.
+                    <i class="fa-solid fa-location-dot text-emerald-500 mr-1"></i> Jalan Raya Desa Bojongsawah, Kec. Kebonpedes, Kab. Sukabumi, Jawa Barat.
                 </p>
             </div>
 
@@ -56,9 +56,9 @@
         </div>
 
         <div class="mt-12 pt-6 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 space-y-3 md:space-y-0">
-            <p>© {{ date('Y') }} Pemerintah Desa Bojong Sawah. Hak Cipta Dilindungi.</p>
+            <p>© {{ date('Y') }} Pemerintah Desa Bojongsawah. Hak Cipta Dilindungi.</p>
             <p class="flex items-center">
-                Dibuat dengan <i class="fa-solid fa-heart text-rose-500 mx-1"></i> untuk Memajukan Ekonomi Warga Desa Bojong Sawah
+                Dibuat dengan <i class="fa-solid fa-heart text-rose-500 mx-1"></i> untuk Memajukan Ekonomi Warga Desa Bojongsawah
             </p>
         </div>
     </div>

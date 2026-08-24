@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' - UMKM Desa Bojong Sawah')
+@section('title', $product->name . ' - UMKM Desa Bojongsawah')
 
 @section('content')
 @php
     $umkm = optional($product->user)->umkmProfile;
-    $storeName = $umkm ? $umkm->store_name : (optional($product->user)->name ?? 'UMKM Bojong Sawah');
+    $storeName = $umkm ? $umkm->store_name : (optional($product->user)->name ?? 'UMKM Bojongsawah');
     $phoneWA = ($umkm->phone_wa ?? null) ?: (optional($product->user)->phone ?: \App\Helpers\WhatsappHelper::getAdminPhone());
-    $storeAddress = $umkm ? $umkm->address : 'Desa Bojong Sawah';
+    $storeAddress = $umkm ? $umkm->address : 'Desa Bojongsawah';
     $waOrderUrl = \App\Helpers\WhatsappHelper::makeProductOrderUrl($phoneWA, $storeName, $product->name, $product->price);
 @endphp
 
@@ -30,6 +30,7 @@
             <div class="md:col-span-6 bg-slate-100 p-6 flex items-center justify-center min-h-[350px]">
                 <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/sawah-hero.jpg') }}" 
                      alt="{{ $product->name }}" 
+                     onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';"
                      class="max-h-[420px] w-full object-contain rounded-2xl shadow-md">
             </div>
 

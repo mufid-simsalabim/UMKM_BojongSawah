@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Social Commerce UMKM Desa Bojong Sawah')</title>
-    <meta name="description" content="Platform Social Commerce UMKM Desa Bojong Sawah. Temukan produk lokal berkualitas dan pesan langsung via WhatsApp.">
+    <title>@yield('title', 'Social Commerce UMKM Desa Bojongsawah')</title>
+    <meta name="description" content="Platform Social Commerce UMKM Desa Bojongsawah. Temukan produk lokal berkualitas dan pesan langsung via WhatsApp.">
     
     <!-- Google Fonts Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

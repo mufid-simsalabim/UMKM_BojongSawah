@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran UMKM Desa Bojong Sawah')
+@section('title', 'Pendaftaran UMKM Desa Bojongsawah')
 
 @section('content')
 <div class="py-10 bg-slate-50">
@@ -15,7 +15,7 @@
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Daftarkan UMKM Anda Sekarang</h1>
                 <p class="mt-2 text-sm text-emerald-100 max-w-xl">
-                    Bergabunglah bersama puluhan pelaku UMKM Desa Bojong Sawah. Pasarkan produk Anda di beranda sosial dan katalog marketplace dengan pesanan langsung ke WhatsApp.
+                    Bergabunglah bersama puluhan pelaku UMKM Desa Bojongsawah. Pasarkan produk Anda di beranda sosial dan katalog marketplace dengan pesanan langsung ke WhatsApp.
                 </p>
             </div>
             <!-- Decorative Shield Logo -->
@@ -27,7 +27,7 @@
             <i class="fa-solid fa-circle-info text-amber-600 text-xl mt-0.5"></i>
             <div class="text-xs text-amber-900 space-y-1">
                 <p class="font-bold">Prosedur Verifikasi Keamanan Data:</p>
-                <p>Setelah mendaftar, akun UMKM Anda akan berada dalam status <span class="font-bold underline">PENDING</span>. Tim Admin Desa Bojong Sawah akan memeriksa NIK dan berkas KTP Anda sebelum menyetujui akun.</p>
+                <p>Setelah mendaftar, akun UMKM Anda akan berada dalam status <span class="font-bold underline">PENDING</span>. Tim Admin Desa Bojongsawah akan memeriksa NIK dan berkas KTP Anda sebelum menyetujui akun.</p>
             </div>
         </div>
 
@@ -120,7 +120,7 @@
                         </label>
                         <input type="text" name="store_name" required value="{{ old('store_name') }}"
                                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white"
-                               placeholder="Contoh: Keripik Singkong Bojong Sawah">
+                               placeholder="Contoh: Keripik Singkong Bojongsawah">
                         @error('store_name') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -141,11 +141,11 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Alamat Usaha di Desa Bojong Sawah <span class="text-rose-500">*</span>
+                        Alamat Usaha di Desa Bojongsawah <span class="text-rose-500">*</span>
                     </label>
                     <textarea name="address" rows="2" required
                               class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white"
-                              placeholder="RT/RW, Kampung, Desa Bojong Sawah">{{ old('address') }}</textarea>
+                              placeholder="RT/RW, Kampung, Desa Bojongsawah">{{ old('address') }}</textarea>
                     @error('address') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 

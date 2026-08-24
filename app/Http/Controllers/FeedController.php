@@ -12,7 +12,7 @@ class FeedController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::with(['user.umkmProfile', 'product', 'comments.user', 'comments.replies.user', 'likes'])->orderBy('created_at', 'desc');
+        $query = Post::with(['user.umkmProfile', 'product', 'comments.user', 'comments.replies.user'])->orderBy('created_at', 'desc');
 
         if ($request->has('category') && $request->category != '') {
             $category = $request->category;

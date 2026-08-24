@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Katalog Produk UMKM Desa Bojong Sawah')
+@section('title', 'Katalog Produk UMKM Desa Bojongsawah')
 
 @section('content')
 <!-- Header Banner Section -->
@@ -10,7 +10,7 @@
             <span class="bg-white/20 text-emerald-200 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                 <i class="fa-solid fa-store mr-1"></i> Toko Desa Online
             </span>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Katalog Produk UMKM Bojong Sawah</h1>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Katalog Produk UMKM Bojongsawah</h1>
             <p class="text-sm text-emerald-100 max-w-xl">
                 Temukan aneka olahan makanan, hasil pertanian segar, dan produk kerajinan tangan berkualitas asli buatan warga desa.
             </p>
@@ -51,7 +51,7 @@
         @forelse($products as $product)
             @php
                 $umkm = optional($product->user)->umkmProfile;
-                $storeName = $umkm ? $umkm->store_name : (optional($product->user)->name ?? 'UMKM Bojong Sawah');
+                $storeName = $umkm ? $umkm->store_name : (optional($product->user)->name ?? 'UMKM Bojongsawah');
                 $phoneWA = ($umkm->phone_wa ?? null) ?: (optional($product->user)->phone ?: \App\Helpers\WhatsappHelper::getAdminPhone());
                 $waOrderUrl = \App\Helpers\WhatsappHelper::makeProductOrderUrl($phoneWA, $storeName, $product->name, $product->price);
             @endphp
@@ -62,6 +62,7 @@
                 <div class="relative bg-slate-100 h-52 overflow-hidden">
                     <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/sawah-hero.jpg') }}" 
                          alt="{{ $product->name }}" 
+                         onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     
                     <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">

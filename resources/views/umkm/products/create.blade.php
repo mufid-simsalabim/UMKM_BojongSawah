@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Produk Baru - UMKM Desa Bojong Sawah')
+@section('title', 'Tambah Produk Baru - UMKM Desa Bojongsawah')
 
 @section('content')
 <div class="py-10 bg-slate-50">
@@ -13,7 +13,7 @@
                     <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
                 </a>
                 <h1 class="text-2xl font-black text-slate-900 mt-2">Tambah Produk Jualan Baru</h1>
-                <p class="text-xs text-slate-500">Isi detail produk untuk ditampilkan di Katalog UMKM Desa Bojong Sawah</p>
+                <p class="text-xs text-slate-500">Isi detail produk untuk ditampilkan di Katalog UMKM Desa Bojongsawah</p>
             </div>
 
             <form action="{{ route('umkm.products.store') }}" method="POST" enctype="multipart/form-data"

@@ -35,7 +35,7 @@ class WhatsappHelper
     {
         $phoneFormatted = self::formatPhone($phone);
         $formattedPrice = 'Rp ' . number_format($price, 0, ',', '.');
-        $message = "Halo {$storeName},\n\nSaya tertarik dan bermaksud memesan produk *\"{$productName}\"* ({$formattedPrice}) yang saya lihat di website *Social Commerce UMKM Desa Bojong Sawah*.\n\nApakah produk ini masih tersedia dan bagaimana proses pemesanannya?";
+        $message = "Halo {$storeName},\n\nSaya tertarik dan bermaksud memesan produk *\"{$productName}\"* ({$formattedPrice}) yang saya lihat di website *Social Commerce UMKM Desa Bojongsawah*.\n\nApakah produk ini masih tersedia dan bagaimana proses pemesanannya?";
 
         return 'https://wa.me/' . $phoneFormatted . '?text=' . urlencode($message);
     }
@@ -47,7 +47,7 @@ class WhatsappHelper
     {
         $phoneFormatted = self::formatPhone($phone);
         $snippet = mb_strimwidth(strip_tags($postTitleOrContent), 0, 80, '...');
-        $message = "Halo {$storeName},\n\nSaya tertarik dengan postingan Anda di website *Social Commerce UMKM Desa Bojong Sawah*:\n\"{$snippet}\"\n\nBisakah dibantu informasi lebih lanjut mengenai produk/layanan ini?";
+        $message = "Halo {$storeName},\n\nSaya tertarik dengan postingan Anda di website *Social Commerce UMKM Desa Bojongsawah*:\n\"{$snippet}\"\n\nBisakah dibantu informasi lebih lanjut mengenai produk/layanan ini?";
 
         return 'https://wa.me/' . $phoneFormatted . '?text=' . urlencode($message);
     }

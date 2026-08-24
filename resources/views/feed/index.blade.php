@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda Social Feed - UMKM Desa Bojong Sawah')
+@section('title', 'Beranda Social Feed - UMKM Desa Bojongsawah')
 
 @section('content')
 <!-- Hero Village Banner Section -->
 <div class="relative bg-slate-900 text-white overflow-hidden">
     <!-- Hero Rice Field Background Image Overlay -->
-    <img src="{{ asset('images/sawah-hero.jpg') }}" alt="Sawah Desa Bojong Sawah" class="absolute inset-0 w-full h-full object-cover opacity-35 filter brightness-90">
+    <img src="{{ asset('images/sawah-hero.jpg') }}" alt="Sawah Desa Bojongsawah" class="absolute inset-0 w-full h-full object-cover opacity-35 filter brightness-90">
     <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-900/80 to-slate-950/90"></div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -15,13 +15,13 @@
             <div class="lg:col-span-8 space-y-4">
                 <div class="inline-flex items-center space-x-2 bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-emerald-300">
                     <img src="{{ asset('images/logo-bojongsawah.png') }}" class="h-4 w-auto">
-                    <span>Social Commerce Desa Bojong Sawah</span>
+                    <span>Social Commerce Desa Bojongsawah</span>
                 </div>
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                    Maju Bersama UMKM <br><span class="text-emerald-400">Desa Bojong Sawah</span>
+                    Maju Bersama UMKM <br><span class="text-emerald-400">Desa Bojongsawah</span>
                 </h1>
                 <p class="text-sm sm:text-base text-slate-200 max-w-2xl font-medium leading-relaxed">
-                    Jelajahi karya, hasil tani, dan sajian kuliner khas warga Desa Bojong Sawah. Pesan produk berkualitas langsung ke kontak WhatsApp pelaku usaha tanpa perantara.
+                    Jelajahi karya, hasil tani, dan sajian kuliner khas warga Desa Bojongsawah. Pesan produk berkualitas langsung ke kontak WhatsApp pelaku usaha tanpa perantara.
                 </p>
                 <div class="pt-2 flex flex-wrap gap-3">
                     <a href="{{ route('catalog.index') }}" class="px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm shadow-lg hover:shadow-xl transition-all flex items-center">
@@ -150,10 +150,9 @@
             @forelse($posts as $post)
                 @php
                     $umkm = optional($post->user)->umkmProfile;
-                    $storeName = $umkm ? $umkm->store_name : (optional($post->user)->name ?? 'UMKM Bojong Sawah');
+                    $storeName = $umkm ? $umkm->store_name : (optional($post->user)->name ?? 'UMKM Bojongsawah');
                     $phoneWA = ($umkm->phone_wa ?? null) ?: (optional($post->user)->phone ?: \App\Helpers\WhatsappHelper::getAdminPhone());
                     $waLink = \App\Helpers\WhatsappHelper::makePostInquiryUrl($phoneWA, $storeName, $post->content);
-                    $isLiked = Auth::check() ? $post->isLikedBy(Auth::user()) : false;
                 @endphp
 
                 <article x-data="{ showComments: false }" class="bg-white rounded-3xl shadow-md border border-slate-100 overflow-hidden transition-all hover:shadow-lg">
@@ -163,7 +162,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-primary-800 text-white flex items-center justify-center font-black text-base shadow-sm overflow-hidden">
                                 @if(optional($post->user)->avatar)
-                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 @else
                                     {{ strtoupper(substr($storeName, 0, 1)) }}
                                 @endif
@@ -207,7 +206,7 @@
                             <div class="mt-3 p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
                                     @if($post->product->image)
-                                        <img src="{{ asset('storage/' . $post->product->image) }}" class="h-12 w-12 object-cover rounded-xl shadow-sm">
+                                        <img src="{{ asset('storage/' . $post->product->image) }}" class="h-12 w-12 object-cover rounded-xl shadow-sm" onerror="this.style.display='none'">
                                     @endif
                                     <div>
                                         <p class="text-xs text-slate-500 font-bold uppercase">Produk Terkait</p>
@@ -224,31 +223,14 @@
                     <!-- Post Image Display -->
                     @if($post->image)
                         <div class="bg-slate-100 max-h-[450px] overflow-hidden">
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="Foto Post" class="w-full h-auto object-cover max-h-[450px] hover:scale-[1.01] transition-transform duration-300">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="Foto Post" class="w-full h-auto object-cover max-h-[450px] hover:scale-[1.01] transition-transform duration-300" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';">
                         </div>
                     @endif
 
-                    <!-- Interactive Action Bar (Like, Comment, WhatsApp Order) -->
+                    <!-- Interactive Action Bar (Comment, WhatsApp Order) -->
                     <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
                         
                         <div class="flex items-center space-x-2">
-                            <!-- Like Button -->
-                            @auth
-                                <form action="{{ route('posts.like', $post->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" 
-                                            class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all {{ $isLiked ? 'bg-rose-100 text-rose-600 border border-rose-200' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
-                                        <i class="fa-{{ $isLiked ? 'solid' : 'regular' }} fa-heart text-sm {{ $isLiked ? 'text-rose-500' : 'text-slate-400' }}"></i>
-                                        <span>{{ $post->likes_count }} Suka</span>
-                                    </button>
-                                </form>
-                            @else
-                                <a href="{{ route('login') }}" class="inline-flex items-center space-x-1.5 px-3 py-2 bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold">
-                                    <i class="fa-regular fa-heart text-sm text-slate-400"></i>
-                                    <span>{{ $post->likes_count }} Suka</span>
-                                </a>
-                            @endauth
-
                             <!-- Comment Button Toggle -->
                             <button @click="showComments = !showComments" 
                                     class="inline-flex items-center space-x-1.5 px-3 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold transition-all">
@@ -418,7 +400,7 @@
                     <i class="fa-solid fa-newspaper text-4xl text-slate-300"></i>
                     <h3 class="text-lg font-bold text-slate-700">Belum Ada Postingan Beranda</h3>
                     <p class="text-xs text-slate-400 max-w-sm mx-auto">
-                        Jadilah yang pertama untuk membagikan produk atau informasi UMKM Desa Bojong Sawah.
+                        Jadilah yang pertama untuk membagikan produk atau informasi UMKM Desa Bojongsawah.
                     </p>
                 </div>
             @endforelse
@@ -445,7 +427,7 @@
                 <div class="space-y-3">
                     @foreach($featuredProducts as $fp)
                         @php
-                            $fpStore = optional($fp->user)->umkmProfile ? optional($fp->user)->umkmProfile->store_name : 'UMKM Bojong Sawah';
+                            $fpStore = optional($fp->user)->umkmProfile ? optional($fp->user)->umkmProfile->store_name : 'UMKM Bojongsawah';
                             $fpPhone = optional(optional($fp->user)->umkmProfile)->phone_wa ?: (optional($fp->user)->phone ?: \App\Helpers\WhatsappHelper::getAdminPhone());
                             $fpWa = \App\Helpers\WhatsappHelper::makeProductOrderUrl($fpPhone, $fpStore, $fp->name, $fp->price);
                         @endphp
@@ -495,7 +477,7 @@
                     <p class="text-xs text-slate-300 mt-1">Dapatkan fasilitas promosi gratis dan langsung terhubung dengan pembeli.</p>
                 </div>
                 <a href="{{ route('register.umkm') }}" class="block w-full text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-extrabold rounded-xl shadow transition-all">
-                    Daftar UMKM Bojong Sawah
+                    Daftar UMKM Bojongsawah
                 </a>
             </div>
 

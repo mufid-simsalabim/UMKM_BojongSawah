@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk Akun - UMKM Desa Bojong Sawah')
+@section('title', 'Masuk Akun - UMKM Desa Bojongsawah')
 
 @section('content')
 <div class="py-12 bg-slate-50 min-h-[calc(100vh-200px)] flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -8,9 +8,9 @@
         
         <!-- Header -->
         <div class="text-center">
-            <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojong Sawah" class="h-16 w-auto mx-auto mb-3">
+            <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojongsawah" class="h-16 w-auto mx-auto mb-3">
             <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Masuk ke Sistem</h2>
-            <p class="text-xs text-slate-500 mt-1">Social Commerce UMKM Desa Bojong Sawah</p>
+            <p class="text-xs text-slate-500 mt-1">Social Commerce UMKM Desa Bojongsawah</p>
         </div>
 
         <form class="mt-8 space-y-6" action="{{ route('login.submit') }}" method="POST">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Admin - Verifikasi UMKM Desa Bojong Sawah')
+@section('title', 'Dashboard Admin - Verifikasi UMKM Desa Bojongsawah')
 
 @section('content')
 <div x-data="{ 
@@ -23,22 +23,19 @@
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Manajemen Verifikasi UMKM</h1>
                 <p class="text-xs sm:text-sm text-slate-300">
-                    Kelola pendaftaran pelaku UMKM Desa Bojong Sawah, periksa keabsahan KTP, dan berikan akses publikasi.
+                    Kelola pendaftaran pelaku UMKM Desa Bojongsawah, periksa keabsahan KTP, dan berikan akses publikasi.
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <a href="{{ route('admin.categories.index') }}" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-2xl border border-slate-700 transition-all flex items-center shrink-0">
+                <a href="{{ route('admin.categories.index') }}" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
                     <i class="fa-solid fa-tags mr-2"></i> Kategori Produk
-                </a>
-                <a href="{{ route('admin.products.index') }}" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
-                    <i class="fa-solid fa-boxes-stacked mr-2"></i> Kelola Katalog Produk
                 </a>
                 <img src="{{ asset('images/logo-bojongsawah.png') }}" class="h-16 w-auto bg-white p-1 rounded-2xl shadow hidden sm:block">
             </div>
         </div>
 
         <!-- Summary Statistics Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
                 <p class="text-xs text-slate-400 font-bold uppercase">Total UMKM</p>
                 <p class="text-2xl font-black text-slate-800 mt-1">{{ $stats['total_umkm'] }}</p>
@@ -55,10 +52,6 @@
                 <p class="text-xs text-rose-800 font-bold uppercase">Ditolak</p>
                 <p class="text-2xl font-black text-rose-600 mt-1">{{ $stats['rejected'] }}</p>
             </div>
-            <a href="{{ route('admin.products.index') }}" class="bg-white p-4 rounded-2xl border border-slate-100 hover:border-emerald-500 shadow-sm text-center transition-all group">
-                <p class="text-xs text-slate-400 font-bold uppercase group-hover:text-emerald-700">Produk (Kelola)</p>
-                <p class="text-2xl font-black text-slate-800 mt-1 group-hover:text-emerald-600">{{ $stats['total_products'] }}</p>
-            </a>
             <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
                 <p class="text-xs text-slate-400 font-bold uppercase">Post Beranda</p>
                 <p class="text-2xl font-black text-slate-800 mt-1">{{ $stats['total_posts'] }}</p>

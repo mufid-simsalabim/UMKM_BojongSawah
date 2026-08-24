@@ -4,13 +4,13 @@
             
             <!-- Brand Logo & Title -->
             <a href="{{ route('feed.index') }}" class="flex items-center space-x-3 group">
-                <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojong Sawah" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                <img src="{{ asset('images/logo-bojongsawah.png') }}" alt="Logo Desa Bojongsawah" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
                 <div>
                     <div class="flex items-center space-x-2">
-                        <span class="font-extrabold text-lg md:text-xl text-slate-900 tracking-tight">UMKM Bojong Sawah</span>
+                        <span class="font-extrabold text-lg md:text-xl text-slate-900 tracking-tight">UMKM Bojongsawah</span>
                         <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Social Commerce</span>
                     </div>
-                    <p class="text-xs text-slate-500 font-medium hidden sm:block">Desa Bojong Sawah • See Kasep</p>
+                    <p class="text-xs text-slate-500 font-medium hidden sm:block">Desa Bojongsawah • See Kasep</p>
                 </div>
             </a>
 
@@ -54,12 +54,69 @@
                         </a>
                     @endif
 
+                    <!-- Notification Bell Dropdown -->
+                    <div x-data="{ notifOpen: false }" class="relative">
+                        <button @click="notifOpen = !notifOpen" class="relative p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors" title="Pemberitahuan">
+                            <i class="fa-regular fa-bell text-base"></i>
+                            @if(Auth::user()->unreadNotificationsCount() > 0)
+                                <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white font-black text-[10px] flex items-center justify-center animate-pulse">
+                                    {{ Auth::user()->unreadNotificationsCount() }}
+                                </span>
+                            @endif
+                        </button>
+
+                        <div x-show="notifOpen" 
+                             @click.outside="notifOpen = false"
+                             x-cloak
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             class="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-slate-100 py-3 z-50">
+                            
+                            <div class="px-4 pb-2.5 border-b border-slate-100 flex items-center justify-between">
+                                <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider">Pemberitahuan</h3>
+                                <a href="{{ route('notifications.index') }}" class="text-[11px] font-bold text-emerald-600 hover:underline">Lihat Semua</a>
+                            </div>
+
+                            <div class="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                                @forelse(Auth::user()->notifications()->take(5)->get() as $n)
+                                    <form action="{{ route('notifications.read', $n->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left p-3 hover:bg-slate-50 transition-colors flex items-start space-x-3 {{ $n->is_read ? 'opacity-75' : 'bg-emerald-50/40' }}">
+                                            <div class="w-2 h-2 rounded-full {{ $n->is_read ? 'bg-transparent' : 'bg-rose-500' }} mt-1.5 shrink-0"></div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-xs font-bold text-slate-900 truncate">{{ $n->title }}</p>
+                                                <p class="text-[11px] text-slate-600 line-clamp-2 mt-0.5">{{ $n->message }}</p>
+                                                <p class="text-[10px] text-slate-400 mt-1">{{ $n->created_at->diffForHumans() }}</p>
+                                            </div>
+                                        </button>
+                                    </form>
+                                @empty
+                                    <div class="p-6 text-center text-xs text-slate-400 font-medium">
+                                        Belum ada pemberitahuan baru.
+                                    </div>
+                                @endforelse
+                            </div>
+
+                            @if(Auth::user()->unreadNotificationsCount() > 0)
+                                <div class="pt-2 border-t border-slate-100 px-3 text-center">
+                                    <form action="{{ route('notifications.readAll') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="text-[11px] font-bold text-slate-500 hover:text-emerald-700">
+                                            Tandai Semua Dibaca
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                     <!-- Profile Dropdown -->
                     <div x-data="{ dropdownOpen: false }" class="relative">
                         <button @click="dropdownOpen = !dropdownOpen" class="flex items-center space-x-2 p-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
                             <div class="w-8 h-8 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-sm overflow-hidden">
                                 @if(Auth::user()->avatar)
-                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 @else
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                 @endif
@@ -89,9 +146,6 @@
                                 </a>
                                 <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
                                     <i class="fa-solid fa-tags mr-2 text-slate-400"></i> Kategori Produk Admin
-                                </a>
-                                <a href="{{ route('admin.products.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
-                                    <i class="fa-solid fa-boxes-stacked mr-2 text-slate-400"></i> Katalog Produk Admin
                                 </a>
                             @elseif(Auth::user()->isUmkm())
                                 <a href="{{ route('umkm.dashboard') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">
@@ -160,9 +214,6 @@
                     <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold">
                         <i class="fa-solid fa-tags mr-2"></i> Kategori Produk Admin
                     </a>
-                    <a href="{{ route('admin.products.index') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold">
-                        <i class="fa-solid fa-boxes-stacked mr-2"></i> Katalog Produk Admin
-                    </a>
                 @elseif(Auth::user()->isUmkm())
                     <a href="{{ route('umkm.dashboard') }}" class="block px-3 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-bold">
                         <i class="fa-solid fa-shop mr-2"></i> Dashboard UMKM
@@ -171,6 +222,15 @@
                         <i class="fa-solid fa-plus mr-2"></i> Tambah Produk Baru
                     </a>
                 @endif
+
+                <a href="{{ route('notifications.index') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold flex items-center justify-between">
+                    <span><i class="fa-regular fa-bell mr-2"></i> Pemberitahuan</span>
+                    @if(Auth::user()->unreadNotificationsCount() > 0)
+                        <span class="px-2 py-0.5 rounded-full bg-rose-500 text-white font-black text-[10px]">
+                            {{ Auth::user()->unreadNotificationsCount() }}
+                        </span>
+                    @endif
+                </a>
 
                 <a href="{{ route('profile.edit') }}" class="block px-3 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold">
                     <i class="fa-solid fa-user-gear mr-2"></i> Pengaturan Profil

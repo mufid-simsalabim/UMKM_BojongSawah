@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Verifikasi Email - UMKM Desa Bojong Sawah')
+@section('title', 'Verifikasi Email - UMKM Desa Bojongsawah')
 
 @section('content')
 <div class="min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -13,7 +13,7 @@
         <div class="space-y-2">
             <h2 class="text-2xl font-black text-slate-900">Verifikasi Alamat Email Anda</h2>
             <p class="text-xs text-slate-600 font-medium leading-relaxed">
-                Terima kasih telah mendaftar di Portal UMKM Desa Bojong Sawah! Sebelum melanjutkan, mohon verifikasi email Anda (<span class="font-bold text-slate-800">{{ Auth::user()->email }}</span>).
+                Terima kasih telah mendaftar di Portal UMKM Desa Bojongsawah! Sebelum melanjutkan, mohon verifikasi email Anda (<span class="font-bold text-slate-800">{{ Auth::user()->email }}</span>).
             </p>
         </div>
 

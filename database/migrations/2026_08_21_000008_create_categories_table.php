@@ -20,7 +20,7 @@ return new class extends Migration
 
         // Insert initial base categories
         $initialCategories = [
-            'Kuliner & Olahan' => 'Sajian makanan, minuman, dan olahan kuliner khas warga Desa Bojong Sawah.',
+            'Kuliner & Olahan' => 'Sajian makanan, minuman, dan olahan kuliner khas warga Desa Bojongsawah.',
             'Pertanian & Peternakan' => 'Hasil bumi, beras organik, sayuran segar, ternak, dan produk pertanian lokal.',
             'Kerajinan & Kriya' => 'Karya seni, ukiran bambu/kayu, anyaman, dan produk kriya buatan warga.',
             'Jasa & Perdagangan' => 'Layanan jasa profesi, servis pertukangan, dan perdagangan umum lokal.',

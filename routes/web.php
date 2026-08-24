@@ -5,16 +5,24 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UmkmMiddleware;
+
+// Storage File Serving Fallback (for hosting without symlink support)
+Route::get('/storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+    return response()->file($filePath);
+})->where('path', '.*');
 
 // Public / Guest Routes
 Route::get('/', [FeedController::class, 'index'])->name('feed.index');
@@ -40,7 +48,7 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect()->route('feed.index')->with('success', 'Email Anda telah berhasil diverifikasi! Selamat menjelajahi UMKM Desa Bojong Sawah.');
+    return redirect()->route('feed.index')->with('success', 'Email Anda telah berhasil diverifikasi! Selamat menjelajahi UMKM Desa Bojongsawah.');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
@@ -54,7 +62,7 @@ Route::post('/email/verify-instant', function (Request $request) {
     if ($user && !$user->hasVerifiedEmail()) {
         $user->markEmailAsVerified();
     }
-    return redirect()->route('feed.index')->with('success', 'Selamat! Akun Anda telah berhasil diverifikasi secara instan. Selamat menjelajahi UMKM Desa Bojong Sawah!');
+    return redirect()->route('feed.index')->with('success', 'Selamat! Akun Anda telah berhasil diverifikasi secara instan. Selamat menjelajahi UMKM Desa Bojongsawah!');
 })->middleware('auth')->name('verification.instant');
 
 // Authenticated User General Routes
@@ -64,10 +72,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/settings/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    // Feed Interactions (Likes & Comments)
-    Route::post('/posts/{id}/like', [LikeController::class, 'toggle'])->name('posts.like');
+    // Feed Interactions (Comments)
     Route::post('/posts/{id}/comment', [CommentController::class, 'store'])->name('posts.comment');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
 });
 
 // Feed Post Action (Logged in UMKM)
@@ -85,15 +97,6 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->as('admin.
     Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
-
-    // Admin Product Management Routes
-    Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
-    Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
-    Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
-    Route::get('/products/{id}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{id}', [AdminProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/{id}', [AdminProductController::class, 'destroy'])->name('products.destroy');
-    Route::patch('/products/{id}/toggle', [AdminProductController::class, 'toggleStatus'])->name('products.toggle');
 });
 
 // UMKM Protected Routes

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Kategori Produk - Admin Desa Bojong Sawah')
+@section('title', 'Manajemen Kategori Produk - Admin Desa Bojongsawah')
 
 @section('content')
 <div x-data="{ 
@@ -21,13 +21,13 @@
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Kategori Produk UMKM</h1>
                 <p class="text-xs sm:text-sm text-slate-300">
-                    Kelola daftar kategori produk untuk memudahkan pencarian warga dan pengelompokan produk UMKM Desa Bojong Sawah.
+                    Kelola daftar kategori produk untuk memudahkan pencarian warga dan pengelompokan produk UMKM Desa Bojongsawah.
                 </p>
             </div>
 
             <div class="flex items-center space-x-3 shrink-0">
-                <a href="{{ route('admin.products.index') }}" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-2xl text-xs font-bold transition-all border border-slate-700 flex items-center">
-                    <i class="fa-solid fa-boxes-stacked mr-2"></i> Katalog Produk
+                <a href="{{ route('admin.dashboard') }}" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-2xl text-xs font-bold transition-all border border-slate-700 flex items-center">
+                    <i class="fa-solid fa-gauge-high mr-2"></i> Dashboard Admin
                 </a>
                 <button @click="createModalOpen = true" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-xs shadow-lg transition-all flex items-center">
                     <i class="fa-solid fa-plus mr-2"></i> Tambah Kategori Baru

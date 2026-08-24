@@ -39,7 +39,7 @@ class AuthController extends Controller
             if ($user->isUmkm() && !$user->isApproved()) {
                 Auth::logout();
                 if ($user->status === 'pending') {
-                    return back()->with('warning', 'Akun Pelaku UMKM Anda masih dalam proses verifikasi oleh Admin Desa Bojong Sawah. Mohon tunggu persetujuan.');
+                    return back()->with('warning', 'Akun Pelaku UMKM Anda masih dalam proses verifikasi oleh Admin Desa Bojongsawah. Mohon tunggu persetujuan.');
                 }
                 if ($user->status === 'rejected') {
                     $reason = optional($user->umkmProfile)->rejection_reason ?? 'Persyaratan belum memenuhi syarat.';
@@ -50,11 +50,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($user->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang di Dashboard Admin Desa Bojong Sawah!');
+                return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang di Dashboard Admin Desa Bojongsawah!');
             }
 
             if ($user->isUmkm()) {
-                return redirect()->intended(route('umkm.dashboard'))->with('success', 'Selamat datang Pelaku UMKM Bojong Sawah!');
+                return redirect()->intended(route('umkm.dashboard'))->with('success', 'Selamat datang Pelaku UMKM Bojongsawah!');
             }
 
             return redirect()->intended(route('feed.index'))->with('success', "Selamat datang kembali, {$user->name}!");
@@ -159,7 +159,7 @@ class AuthController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojong Sawah.');
+        return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojongsawah.');
     }
 
     public function logout(Request $request)

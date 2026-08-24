@@ -12,7 +12,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check() || !Auth::user()->isAdmin()) {
-            return redirect()->route('login')->with('error', 'Akses terbatas untuk Admin Desa Bojong Sawah.');
+            return redirect()->route('login')->with('error', 'Akses terbatas untuk Admin Desa Bojongsawah.');
         }
 
         return $next($request);

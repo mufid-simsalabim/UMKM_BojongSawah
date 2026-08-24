@@ -33,17 +33,4 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->latest();
     }
-
-    public function likes(): HasMany
-    {
-        return $this->hasMany(Like::class);
-    }
-
-    public function isLikedBy(?User $user): bool
-    {
-        if (!$user) {
-            return false;
-        }
-        return $this->likes()->where('user_id', $user->id)->exists();
-    }
 }

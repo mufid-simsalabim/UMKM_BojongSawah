@@ -65,9 +65,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Comment::class);
     }
 
-    public function likes(): HasMany
+    public function notifications(): HasMany
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Notification::class)->latest();
+    }
+
+    public function unreadNotificationsCount(): int
+    {
+        return $this->notifications()->where('is_read', false)->count();
     }
 
     public function isAdmin(): bool

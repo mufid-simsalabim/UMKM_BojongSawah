@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Registrasi Pengguna - UMKM Desa Bojong Sawah')
+@section('title', 'Registrasi Pengguna - UMKM Desa Bojongsawah')
 
 @section('content')
 <div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -10,7 +10,7 @@
         <div class="text-center space-y-2">
             <img src="{{ asset('images/logo-bojongsawah.png') }}" class="h-16 w-auto mx-auto mb-2">
             <h2 class="text-2xl font-black text-slate-900">Daftar Akun Pengguna</h2>
-            <p class="text-xs text-slate-500 font-medium">Buat akun warga untuk memesan produk, menyukai postingan, dan berinteraksi di feed Desa Bojong Sawah.</p>
+            <p class="text-xs text-slate-500 font-medium">Buat akun warga untuk memesan produk, menyukai postingan, dan berinteraksi di feed Desa Bojongsawah.</p>
         </div>
 
         @if(session('error'))
