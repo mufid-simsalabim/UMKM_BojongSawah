@@ -82,21 +82,27 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
 });
 
-// Feed Post Action (Logged in UMKM)
-Route::post('/feed/post', [FeedController::class, 'store'])->name('feed.store')->middleware(['auth', UmkmMiddleware::class]);
+// Feed Post Action (Logged in UMKM or Admin)
+Route::post('/feed/post', [FeedController::class, 'store'])->name('feed.store')->middleware('auth');
 
 // Admin Protected Routes
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('/umkm/{id}/approve', [AdminController::class, 'approve'])->name('umkm.approve');
     Route::post('/umkm/{id}/reject', [AdminController::class, 'reject'])->name('umkm.reject');
-    Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('posts.destroy');
 
     // Admin Category Management Routes
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
     Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    // Admin Post Management & CRUD Routes
+    Route::get('/posts', [AdminController::class, 'postsIndex'])->name('posts.index');
+    Route::post('/posts', [AdminController::class, 'storePost'])->name('posts.store');
+    Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
+    Route::put('/posts/{id}', [AdminController::class, 'updatePost'])->name('posts.update');
+    Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('posts.destroy');
 });
 
 // UMKM Protected Routes
@@ -107,4 +113,9 @@ Route::middleware(['auth', UmkmMiddleware::class])->prefix('umkm')->as('umkm.')-
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    // UMKM Post Management Routes
+    Route::get('/posts/{id}/edit', [FeedController::class, 'editPost'])->name('posts.edit');
+    Route::put('/posts/{id}', [FeedController::class, 'updatePost'])->name('posts.update');
+    Route::delete('/posts/{id}', [FeedController::class, 'destroyPost'])->name('posts.destroy');
 });

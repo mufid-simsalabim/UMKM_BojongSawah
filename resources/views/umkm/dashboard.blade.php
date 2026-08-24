@@ -154,13 +154,27 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 @forelse($posts as $post)
-                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-start space-x-3">
-                        @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-16 h-16 object-cover rounded-xl shadow-sm">
-                        @endif
-                        <div class="flex-1 min-w-0">
-                            <p class="text-xs text-slate-400 font-bold"><i class="fa-regular fa-clock mr-1"></i>{{ $post->created_at->diffForHumans() }}</p>
-                            <p class="text-xs text-slate-800 line-clamp-2 mt-1">{{ $post->content }}</p>
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-start justify-between space-x-3">
+                        <div class="flex items-start space-x-3 min-w-0 flex-1">
+                            @if($post->image)
+                                <img src="{{ asset('storage/' . $post->image) }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-16 h-16 object-cover rounded-xl shadow-sm shrink-0">
+                            @endif
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs text-slate-400 font-bold"><i class="fa-regular fa-clock mr-1"></i>{{ $post->created_at->diffForHumans() }}</p>
+                                <p class="text-xs text-slate-800 line-clamp-2 mt-1">{{ $post->content }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1 shrink-0">
+                            <a href="{{ route('umkm.posts.edit', $post->id) }}" class="p-2 text-slate-400 hover:text-amber-600 rounded-xl transition-colors text-xs font-bold" title="Edit Postingan">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <form action="{{ route('umkm.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Hapus postingan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-2 text-slate-400 hover:text-rose-600 rounded-xl transition-colors text-xs" title="Hapus Postingan">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @empty

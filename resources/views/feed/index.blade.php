@@ -82,9 +82,9 @@
         <!-- Left Feed Timeline (Cols 8) -->
         <div class="lg:col-span-8 space-y-6">
             
-            <!-- UMKM Post Creator Widget (If Logged-in & Approved UMKM) -->
+            <!-- UMKM & Admin Post Creator Widget -->
             @auth
-                @if(Auth::user()->isUmkm() && Auth::user()->isApproved())
+                @if((Auth::user()->isUmkm() && Auth::user()->isApproved()) || Auth::user()->isAdmin())
                     <div x-data="{ openComposer: false, imagePreview: null }" class="bg-white rounded-3xl shadow-md border border-slate-100 p-5 space-y-4">
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm overflow-hidden">
@@ -95,7 +95,7 @@
                                 @endif
                             </div>
                             <button @click="openComposer = true" class="flex-1 text-left px-4 py-3 bg-slate-100 hover:bg-slate-200/80 rounded-2xl text-slate-500 text-sm font-medium transition-colors">
-                                Apa produk atau kabar UMKM yang ingin Anda bagikan hari ini, {{ Auth::user()->name }}?
+                                {{ Auth::user()->isAdmin() ? 'Tulis pengumuman atau informasi desa baru, Admin ' . Auth::user()->name . '?' : 'Apa produk atau kabar UMKM yang ingin Anda bagikan hari ini, ' . Auth::user()->name . '?' }}
                             </button>
                         </div>
 
@@ -105,7 +105,7 @@
                                 @csrf
                                 <textarea name="content" rows="3" required
                                           class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white"
-                                          placeholder="Tuliskan deskripsi produk, promosi, atau update terbaru usaha Anda..."></textarea>
+                                          placeholder="{{ Auth::user()->isAdmin() ? 'Tuliskan pengumuman resmi atau kabar desa...' : 'Tuliskan deskripsi produk, promosi, atau update terbaru usaha Anda...' }}"></textarea>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                                     <!-- Tagged Product (Optional) -->
@@ -113,7 +113,10 @@
                                         <label class="block text-xs font-bold text-slate-600 mb-1">Hubungkan Produk Katalog (Opsional)</label>
                                         <select name="product_id" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold">
                                             <option value="">-- Pilih Produk --</option>
-                                            @foreach(Auth::user()->products as $p)
+                                            @php
+                                                $composerProducts = Auth::user()->isAdmin() ? \App\Models\Product::where('is_active', true)->get() : Auth::user()->products;
+                                            @endphp
+                                            @foreach($composerProducts as $p)
                                                 <option value="{{ $p->id }}">{{ $p->name }} (Rp {{ number_format($p->price, 0, ',', '.') }})</option>
                                             @endforeach
                                         </select>
@@ -121,7 +124,7 @@
 
                                     <!-- Upload Image -->
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-600 mb-1">Unggah Foto Produk/Postingan</label>
+                                        <label class="block text-xs font-bold text-slate-600 mb-1">Unggah Foto Postingan</label>
                                         <input type="file" name="image" accept="image/*"
                                                @change="const file = $event.target.files[0]; if (file) { imagePreview = URL.createObjectURL(file); }"
                                                class="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200">
@@ -183,16 +186,23 @@
                             </div>
                         </div>
 
-                        <!-- Admin Moderation Action -->
+                        <!-- Post Actions (Edit & Delete for Owner/Admin) -->
                         @auth
-                            @if(Auth::user()->isAdmin())
-                                <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Hapus postingan ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-slate-400 hover:text-rose-600 p-2 rounded-xl transition-colors" title="Hapus Postingan">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </form>
+                            @if(Auth::id() === $post->user_id || Auth::user()->isAdmin())
+                                <div class="flex items-center space-x-1">
+                                    <a href="{{ Auth::user()->isAdmin() ? route('admin.posts.edit', $post->id) : route('umkm.posts.edit', $post->id) }}" 
+                                       class="text-slate-400 hover:text-amber-600 p-2 rounded-xl transition-colors text-xs font-bold" 
+                                       title="Edit Postingan">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <form action="{{ Auth::user()->isAdmin() ? route('admin.posts.destroy', $post->id) : route('umkm.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Hapus postingan ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-slate-400 hover:text-rose-600 p-2 rounded-xl transition-colors text-xs" title="Hapus Postingan">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             @endif
                         @endauth
                     </div>

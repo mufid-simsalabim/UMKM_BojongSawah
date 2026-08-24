@@ -27,6 +27,9 @@
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+                <a href="{{ route('admin.posts.index') }}" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
+                    <i class="fa-solid fa-newspaper mr-2"></i> Kelola Postingan
+                </a>
                 <a href="{{ route('admin.categories.index') }}" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center shrink-0">
                     <i class="fa-solid fa-tags mr-2"></i> Kategori Produk
                 </a>
@@ -52,10 +55,10 @@
                 <p class="text-xs text-rose-800 font-bold uppercase">Ditolak</p>
                 <p class="text-2xl font-black text-rose-600 mt-1">{{ $stats['rejected'] }}</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+            <a href="{{ route('admin.posts.index') }}" class="bg-white hover:bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-sm text-center transition-colors block">
                 <p class="text-xs text-slate-400 font-bold uppercase">Post Beranda</p>
                 <p class="text-2xl font-black text-slate-800 mt-1">{{ $stats['total_posts'] }}</p>
-            </div>
+            </a>
         </div>
 
         <!-- Filter Tabs -->

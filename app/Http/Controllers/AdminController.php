@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\Post;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -84,9 +86,99 @@ class AdminController extends Controller
         return back()->with('info', "Pendaftaran UMKM \"{$umkm->store_name}\" telah DITOLAK.");
     }
 
+    // Admin Post Management (CRUD)
+    public function postsIndex(Request $request)
+    {
+        $query = Post::with(['user.umkmProfile', 'product', 'comments'])->orderBy('created_at', 'desc');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('content', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+        }
+
+        $posts = $query->paginate(15)->withQueryString();
+        $products = Product::where('is_active', true)->get();
+
+        return view('admin.posts.index', compact('posts', 'products'));
+    }
+
+    public function storePost(Request $request)
+    {
+        $validated = $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+            'product_id' => ['nullable', 'exists:products,id'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('post_images', 'public');
+        }
+
+        Post::create([
+            'user_id' => Auth::id(),
+            'product_id' => $validated['product_id'] ?? null,
+            'content' => $validated['content'],
+            'image' => $imagePath,
+        ]);
+
+        return back()->with('success', 'Pengumuman / Postingan Admin berhasil diterbitkan ke Beranda!');
+    }
+
+    public function editPost($id)
+    {
+        $post = Post::findOrFail($id);
+        $products = Product::where('is_active', true)->get();
+        return view('admin.posts.edit', compact('post', 'products'));
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        $validated = $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+            'product_id' => ['nullable', 'exists:products,id'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'remove_image' => ['nullable', 'boolean'],
+        ]);
+
+        $imagePath = $post->image;
+
+        if ($request->boolean('remove_image')) {
+            if ($post->image && Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $imagePath = null;
+        }
+
+        if ($request->hasFile('image')) {
+            if ($post->image && Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $imagePath = $request->file('image')->store('post_images', 'public');
+        }
+
+        $post->update([
+            'content' => $validated['content'],
+            'product_id' => $validated['product_id'] ?? null,
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Postingan beranda berhasil diperbarui oleh Admin.');
+    }
+
     public function deletePost($id)
     {
         $post = Post::findOrFail($id);
+
+        if ($post->image && Storage::disk('public')->exists($post->image)) {
+            Storage::disk('public')->delete($post->image);
+        }
+
         $post->delete();
 
         return back()->with('success', 'Postingan beranda berhasil dihapus oleh Admin.');
