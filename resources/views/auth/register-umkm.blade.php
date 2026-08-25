@@ -129,11 +129,9 @@
                             Kategori Usaha <span class="text-rose-500">*</span>
                         </label>
                         <select name="category" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white">
-                            <option value="Kuliner & Olahan" {{ old('category') == 'Kuliner & Olahan' ? 'selected' : '' }}>Kuliner & Olahan Makanan</option>
-                            <option value="Pertanian & Peternakan" {{ old('category') == 'Pertanian & Peternakan' ? 'selected' : '' }}>Pertanian & Hasil Sawah</option>
-                            <option value="Kerajinan & Kriya" {{ old('category') == 'Kerajinan & Kriya' ? 'selected' : '' }}>Kerajinan Tangan & Kriya</option>
-                            <option value="Jasa & Perdagangan" {{ old('category') == 'Jasa & Perdagangan' ? 'selected' : '' }}>Jasa & Perdagangan Desa</option>
-                            <option value="Lainnya" {{ old('category') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                            @endforeach
                         </select>
                         @error('category') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>

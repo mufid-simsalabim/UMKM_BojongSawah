@@ -125,12 +125,9 @@
                     <div>
                         <label for="category" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Usaha</label>
                         <select name="category" id="category" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold">
-                            <option value="Kuliner & Olahan" {{ old('category', optional($umkm)->category) == 'Kuliner & Olahan' ? 'selected' : '' }}>KULINER & OLAHAN</option>
-                            <option value="Kerajinan & Cenderamata" {{ old('category', optional($umkm)->category) == 'Kerajinan & Cenderamata' ? 'selected' : '' }}>KERAJINAN & CENDERAMATA</option>
-                            <option value="Pertanian & Perkebunan" {{ old('category', optional($umkm)->category) == 'Pertanian & Perkebunan' ? 'selected' : '' }}>PERTANIAN & PERKEBUNAN</option>
-                            <option value="Fashion & Konveksi" {{ old('category', optional($umkm)->category) == 'Fashion & Konveksi' ? 'selected' : '' }}>FASHION & KONVEKSI</option>
-                            <option value="Jasa & Perdagangan" {{ old('category', optional($umkm)->category) == 'Jasa & Perdagangan' ? 'selected' : '' }}>JASA & PERDAGANGAN</option>
-                            <option value="Lainnya" {{ old('category', optional($umkm)->category) == 'Lainnya' ? 'selected' : '' }}>LAINNYA</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat }}" {{ old('category', optional($umkm)->category) == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                            @endforeach
                         </select>
                     </div>
 

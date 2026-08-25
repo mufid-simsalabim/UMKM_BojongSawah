@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\Category;
+
 class FeedController extends Controller
 {
     public function index(Request $request)
@@ -25,8 +27,9 @@ class FeedController extends Controller
         $posts = $query->paginate(10);
         $featuredProducts = Product::where('is_active', true)->with('user.umkmProfile')->latest()->take(5)->get();
         $verifiedUmkms = UmkmProfile::where('status', 'approved')->latest()->take(6)->get();
+        $categories = Category::getAllNames();
 
-        return view('feed.index', compact('posts', 'featuredProducts', 'verifiedUmkms'));
+        return view('feed.index', compact('posts', 'featuredProducts', 'verifiedUmkms', 'categories'));
     }
 
     public function store(Request $request)

@@ -18,6 +18,22 @@ class Category extends Model
 
     public function products(): HasMany
     {
-        return $table = $this->hasMany(Product::class, 'category', 'name');
+        return $this->hasMany(Product::class, 'category', 'name');
+    }
+
+    public static function getAllNames(): array
+    {
+        $names = static::orderBy('name')->pluck('name')->toArray();
+        if (empty($names)) {
+            return [
+                'Kuliner & Olahan',
+                'Pertanian & Peternakan',
+                'Kerajinan & Kriya',
+                'Fashion & Konveksi',
+                'Jasa & Perdagangan',
+                'Lainnya',
+            ];
+        }
+        return $names;
     }
 }

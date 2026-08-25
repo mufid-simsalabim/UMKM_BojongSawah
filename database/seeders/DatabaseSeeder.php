@@ -12,10 +12,30 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Category;
+
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 0. Seed Default Product Categories
+        $defaultCategories = [
+            'Kuliner & Olahan',
+            'Pertanian & Peternakan',
+            'Kerajinan & Kriya',
+            'Fashion & Konveksi',
+            'Jasa & Perdagangan',
+            'Lainnya',
+        ];
+        foreach ($defaultCategories as $catName) {
+            Category::firstOrCreate([
+                'name' => $catName,
+            ], [
+                'slug' => Str::slug($catName),
+                'description' => 'Kategori produk UMKM Desa Bojongsawah',
+            ]);
+        }
+
         // 1. Create Admin User
         $admin = User::create([
             'name' => 'Administrator Desa Bojongsawah',

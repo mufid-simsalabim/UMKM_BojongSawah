@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
+use App\Models\Category;
+
 class AdminUserController extends Controller
 {
     public function index(Request $request)
@@ -57,7 +59,8 @@ class AdminUserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $categories = Category::getAllNames();
+        return view('admin.users.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -112,7 +115,8 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         $user = User::with('umkmProfile')->findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        $categories = Category::getAllNames();
+        return view('admin.users.edit', compact('user', 'categories'));
     }
 
     public function update(Request $request, $id)

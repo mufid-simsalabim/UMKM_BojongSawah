@@ -108,7 +108,8 @@ class AuthController extends Controller
 
     public function showRegisterUmkmForm()
     {
-        return view('auth.register-umkm');
+        $categories = Category::getAllNames();
+        return view('auth.register-umkm', compact('categories'));
     }
 
     public function registerUmkm(Request $request)

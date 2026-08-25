@@ -129,12 +129,9 @@
                     <div>
                         <label for="category" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Usaha <span class="text-rose-500">*</span></label>
                         <select name="category" id="category" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold">
-                            <option value="Kuliner & Olahan">KULINER & OLAHAN</option>
-                            <option value="Kerajinan & Cenderamata">KERAJINAN & CENDERAMATA</option>
-                            <option value="Pertanian & Perkebunan">PERTANIAN & PERKEBUNAN</option>
-                            <option value="Fashion & Konveksi">FASHION & KONVEKSI</option>
-                            <option value="Jasa & Perdagangan">JASA & PERDAGANGAN</option>
-                            <option value="Lainnya">LAINNYA</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                            @endforeach
                         </select>
                     </div>
 
