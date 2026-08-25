@@ -23,17 +23,22 @@ class Category extends Model
 
     public static function getAllNames(): array
     {
-        $names = static::orderBy('name')->pluck('name')->toArray();
-        if (empty($names)) {
-            return [
-                'Kuliner & Olahan',
-                'Pertanian & Peternakan',
-                'Kerajinan & Kriya',
-                'Fashion & Konveksi',
-                'Jasa & Perdagangan',
-                'Lainnya',
-            ];
+        try {
+            $names = static::orderBy('name')->pluck('name')->toArray();
+            if (!empty($names)) {
+                return $names;
+            }
+        } catch (\Throwable $e) {
+            // Safe fallback if categories table does not exist in database
         }
-        return $names;
+
+        return [
+            'Kuliner & Olahan',
+            'Pertanian & Peternakan',
+            'Kerajinan & Kriya',
+            'Fashion & Konveksi',
+            'Jasa & Perdagangan',
+            'Lainnya',
+        ];
     }
 }
