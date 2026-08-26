@@ -149,36 +149,60 @@ class AuthController extends Controller
             'business_image.max' => 'Ukuran foto Tempat Usaha maksimal 3MB.',
         ]);
 
-        // Upload files into persistent Base64 Data URIs
-        $ktpPath = ImageHelper::store($request->file('ktp_image'));
-        $businessPath = ImageHelper::store($request->file('business_image'));
+        try {
+            // Upload files into persistent Base64 Data URIs
+            $ktpPath = ImageHelper::store($request->file('ktp_image'));
+            $businessPath = ImageHelper::store($request->file('business_image'));
 
-        // Create User
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'password' => Hash::make($validated['password']),
-            'role' => 'umkm',
-            'status' => 'pending',
-        ]);
+            // Create User
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'password' => Hash::make($validated['password']),
+                'role' => 'umkm',
+                'status' => 'pending',
+            ]);
 
-        // Create UMKM Profile
-        UmkmProfile::create([
-            'user_id' => $user->id,
-            'nik' => $validated['nik'],
-            'owner_name' => $validated['name'],
-            'store_name' => $validated['store_name'],
-            'phone_wa' => $validated['phone'],
-            'category' => $validated['category'],
-            'address' => $validated['address'],
-            'description' => $validated['description'] ?? null,
-            'ktp_image' => $ktpPath,
-            'business_image' => $businessPath,
-            'status' => 'pending',
-        ]);
+            try {
+                // Attempt creating profile with Base64 Data URIs
+                UmkmProfile::create([
+                    'user_id' => $user->id,
+                    'nik' => $validated['nik'],
+                    'owner_name' => $validated['name'],
+                    'store_name' => $validated['store_name'],
+                    'phone_wa' => $validated['phone'],
+                    'category' => $validated['category'],
+                    'address' => $validated['address'],
+                    'description' => $validated['description'] ?? null,
+                    'ktp_image' => $ktpPath ?: 'ktp_documents/default.jpg',
+                    'business_image' => $businessPath ?: 'business_documents/default.jpg',
+                    'status' => 'pending',
+                ]);
+            } catch (\Illuminate\Database\QueryException $qe) {
+                // Fallback for short VARCHAR(255) columns in database: store relative file paths
+                $ktpDisk = $request->file('ktp_image')->store('ktp_documents', 'public');
+                $businessDisk = $request->file('business_image')->store('business_documents', 'public');
 
-        return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojongsawah.');
+                UmkmProfile::create([
+                    'user_id' => $user->id,
+                    'nik' => $validated['nik'],
+                    'owner_name' => $validated['name'],
+                    'store_name' => $validated['store_name'],
+                    'phone_wa' => $validated['phone'],
+                    'category' => $validated['category'],
+                    'address' => $validated['address'],
+                    'description' => $validated['description'] ?? null,
+                    'ktp_image' => $ktpDisk,
+                    'business_image' => $businessDisk,
+                    'status' => 'pending',
+                ]);
+            }
+
+            return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojongsawah.');
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'Gagal mendaftar UMKM: ' . $e->getMessage());
+        }
     }
 
     public function logout(Request $request)

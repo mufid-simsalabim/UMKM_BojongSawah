@@ -22,6 +22,13 @@
             <img src="{{ asset('images/logo-bojongsawah.png') }}" class="absolute right-4 bottom-0 h-40 opacity-15 pointer-events-none transform translate-y-4">
         </div>
 
+        @if(session('error'))
+            <div class="bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl p-4 mb-6 flex items-center space-x-3 text-xs font-bold shadow-sm">
+                <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                <p>{{ session('error') }}</p>
+            </div>
+        @endif
+
         <!-- Info Note Box -->
         <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-start space-x-3">
             <i class="fa-solid fa-circle-info text-amber-600 text-xl mt-0.5"></i>
