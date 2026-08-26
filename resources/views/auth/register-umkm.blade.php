@@ -34,13 +34,12 @@
             <i class="fa-solid fa-circle-info text-amber-600 text-xl mt-0.5"></i>
             <div class="text-xs text-amber-900 space-y-1">
                 <p class="font-bold">Prosedur Verifikasi Keamanan Data:</p>
-                <p>Setelah mendaftar, akun UMKM Anda akan berada dalam status <span class="font-bold underline">PENDING</span>. Tim Admin Desa Bojongsawah akan memeriksa NIK dan berkas KTP Anda sebelum menyetujui akun.</p>
+                <p>Setelah mendaftar, akun UMKM Anda akan berada dalam status <span class="font-bold underline">PENDING</span>. Tim Admin Desa Bojongsawah akan memeriksa NIK dan data usaha Anda sebelum menyetujui akun.</p>
             </div>
         </div>
 
         <!-- Registration Form -->
-        <form action="{{ route('register.umkm.submit') }}" method="POST" enctype="multipart/form-data" 
-              x-data="{ ktpPreview: null, businessPreview: null }"
+        <form action="{{ route('register.umkm.submit') }}" method="POST"
               class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10 space-y-8">
             @csrf
 
@@ -161,76 +160,6 @@
                     <textarea name="description" rows="3"
                               class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white"
                               placeholder="Jelaskan mengenai usaha Anda, keunggulan produk, dll...">{{ old('description') }}</textarea>
-                </div>
-            </div>
-
-            <!-- Section 3: Unggah Dokumen Verifikasi -->
-            <div class="space-y-4">
-                <div class="border-b border-slate-100 pb-3 flex items-center space-x-2">
-                    <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">3</div>
-                    <h2 class="font-bold text-base text-slate-900">Unggah Berkas Verifikasi (Wajib 2 Foto)</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- Upload 1: Foto KTP -->
-                    <div class="space-y-2">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                            1. Foto KTP Asli Pemilik <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-4 text-center bg-slate-50 hover:bg-emerald-50/50 transition-all cursor-pointer relative"
-                             @click="$refs.ktpInput.click()">
-                            
-                            <template x-if="!ktpPreview">
-                                <div class="space-y-2 py-4">
-                                    <i class="fa-solid fa-id-card text-3xl text-slate-400"></i>
-                                    <p class="text-xs font-semibold text-slate-600">Klik untuk memilih Foto KTP</p>
-                                    <p class="text-[10px] text-slate-400">Format: JPG, PNG, WEBP (Max 3MB)</p>
-                                </div>
-                            </template>
-
-                            <template x-if="ktpPreview">
-                                <div class="relative">
-                                    <img :src="ktpPreview" class="h-40 w-full object-cover rounded-xl shadow-sm">
-                                    <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">KTP Terpilih</span>
-                                </div>
-                            </template>
-
-                            <input type="file" name="ktp_image" x-ref="ktpInput" accept="image/*" required class="hidden"
-                                   @change="const file = $event.target.files[0]; if (file) { ktpPreview = URL.createObjectURL(file); }">
-                        </div>
-                        @error('ktp_image') <p class="text-rose-600 text-xs font-medium">{{ $message }}</p> @enderror
-                    </div>
-
-                    <!-- Upload 2: Foto Tempat Usaha / Produk -->
-                    <div class="space-y-2">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                            2. Foto Tempat Usaha / Produk <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-4 text-center bg-slate-50 hover:bg-emerald-50/50 transition-all cursor-pointer relative"
-                             @click="$refs.businessInput.click()">
-                            
-                            <template x-if="!businessPreview">
-                                <div class="space-y-2 py-4">
-                                    <i class="fa-solid fa-shop text-3xl text-slate-400"></i>
-                                    <p class="text-xs font-semibold text-slate-600">Klik untuk memilih Foto Tempat Usaha</p>
-                                    <p class="text-[10px] text-slate-400">Format: JPG, PNG, WEBP (Max 3MB)</p>
-                                </div>
-                            </template>
-
-                            <template x-if="businessPreview">
-                                <div class="relative">
-                                    <img :src="businessPreview" class="h-40 w-full object-cover rounded-xl shadow-sm">
-                                    <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">Foto Terpilih</span>
-                                </div>
-                            </template>
-
-                            <input type="file" name="business_image" x-ref="businessInput" accept="image/*" required class="hidden"
-                                   @change="const file = $event.target.files[0]; if (file) { businessPreview = URL.createObjectURL(file); }">
-                        </div>
-                        @error('business_image') <p class="text-rose-600 text-xs font-medium">{{ $message }}</p> @enderror
-                    </div>
-
                 </div>
             </div>
 

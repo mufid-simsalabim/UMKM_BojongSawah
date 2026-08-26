@@ -137,22 +137,18 @@ class AuthController extends Controller
             'category' => ['required', 'string'],
             'address' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'ktp_image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
-            'business_image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'ktp_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'business_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
         ], [
             'nik.digits' => 'NIK harus berjumlah 16 digit angka.',
             'nik.unique' => 'NIK ini sudah terdaftar dalam sistem.',
             'email.unique' => 'Email ini sudah digunakan.',
-            'ktp_image.required' => 'Foto KTP wajib diunggah untuk verifikasi.',
-            'business_image.required' => 'Foto Tempat Usaha / Produk wajib diunggah.',
-            'ktp_image.max' => 'Ukuran foto KTP maksimal 3MB.',
-            'business_image.max' => 'Ukuran foto Tempat Usaha maksimal 3MB.',
         ]);
 
         try {
-            // Upload files into persistent Base64 Data URIs
-            $ktpPath = ImageHelper::store($request->file('ktp_image'));
-            $businessPath = ImageHelper::store($request->file('business_image'));
+            // Upload files into persistent Base64 Data URIs if provided
+            $ktpPath = $request->hasFile('ktp_image') ? ImageHelper::store($request->file('ktp_image')) : 'ktp_documents/default.jpg';
+            $businessPath = $request->hasFile('business_image') ? ImageHelper::store($request->file('business_image')) : 'business_documents/default.jpg';
 
             // Create User
             $user = User::create([
@@ -164,40 +160,20 @@ class AuthController extends Controller
                 'status' => 'pending',
             ]);
 
-            try {
-                // Attempt creating profile with Base64 Data URIs
-                UmkmProfile::create([
-                    'user_id' => $user->id,
-                    'nik' => $validated['nik'],
-                    'owner_name' => $validated['name'],
-                    'store_name' => $validated['store_name'],
-                    'phone_wa' => $validated['phone'],
-                    'category' => $validated['category'],
-                    'address' => $validated['address'],
-                    'description' => $validated['description'] ?? null,
-                    'ktp_image' => $ktpPath ?: 'ktp_documents/default.jpg',
-                    'business_image' => $businessPath ?: 'business_documents/default.jpg',
-                    'status' => 'pending',
-                ]);
-            } catch (\Illuminate\Database\QueryException $qe) {
-                // Fallback for short VARCHAR(255) columns in database: store relative file paths
-                $ktpDisk = $request->file('ktp_image')->store('ktp_documents', 'public');
-                $businessDisk = $request->file('business_image')->store('business_documents', 'public');
-
-                UmkmProfile::create([
-                    'user_id' => $user->id,
-                    'nik' => $validated['nik'],
-                    'owner_name' => $validated['name'],
-                    'store_name' => $validated['store_name'],
-                    'phone_wa' => $validated['phone'],
-                    'category' => $validated['category'],
-                    'address' => $validated['address'],
-                    'description' => $validated['description'] ?? null,
-                    'ktp_image' => $ktpDisk,
-                    'business_image' => $businessDisk,
-                    'status' => 'pending',
-                ]);
-            }
+            // Create UMKM Profile
+            UmkmProfile::create([
+                'user_id' => $user->id,
+                'nik' => $validated['nik'],
+                'owner_name' => $validated['name'],
+                'store_name' => $validated['store_name'],
+                'phone_wa' => $validated['phone'],
+                'category' => $validated['category'],
+                'address' => $validated['address'],
+                'description' => $validated['description'] ?? null,
+                'ktp_image' => $ktpPath ?: 'ktp_documents/default.jpg',
+                'business_image' => $businessPath ?: 'business_documents/default.jpg',
+                'status' => 'pending',
+            ]);
 
             return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojongsawah.');
         } catch (\Throwable $e) {
