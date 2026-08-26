@@ -1,6 +1,6 @@
 <?php
 
-// Prepare storage subdirectories in /tmp for Vercel serverless environment
+// Prepare storage subdirectiories in /tmp for Vercel serverless environment
 $storageDir = '/tmp/storage';
 $dirs = [
     $storageDir . '/app/public',
