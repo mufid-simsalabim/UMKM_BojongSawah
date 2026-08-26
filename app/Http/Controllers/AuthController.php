@@ -110,7 +110,18 @@ class AuthController extends Controller
 
     public function showRegisterUmkmForm()
     {
-        $categories = Category::getAllNames();
+        try {
+            $categories = Category::getAllNames();
+        } catch (\Throwable $e) {
+            $categories = [
+                'Kuliner & Olahan',
+                'Pertanian & Peternakan',
+                'Kerajinan & Kriya',
+                'Fashion & Konveksi',
+                'Jasa & Perdagangan',
+                'Lainnya',
+            ];
+        }
         return view('auth.register-umkm', compact('categories'));
     }
 

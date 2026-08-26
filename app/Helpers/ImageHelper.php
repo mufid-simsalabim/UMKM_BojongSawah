@@ -14,7 +14,7 @@ class ImageHelper
      * @param int $quality
      * @return string|null
      */
-    public static function store($file, int $maxWidth = 800, int $quality = 75): ?string
+    public static function store($file, int $maxWidth = 600, int $quality = 70): ?string
     {
         if (!$file) {
             return null;
