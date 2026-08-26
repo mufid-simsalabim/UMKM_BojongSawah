@@ -8,6 +8,10 @@
   },
   "routes": [
     {
+      "src": "/(css|js|images|storage|favicon.ico)/(.*)",
+      "dest": "/$1/$2"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
