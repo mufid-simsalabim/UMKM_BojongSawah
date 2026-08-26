@@ -37,7 +37,13 @@ class Post extends Model
     public function getImageUrlAttribute(): ?string
     {
         if ($this->image) {
-            if (str_starts_with($this->image, 'http') || str_starts_with($this->image, 'data:')) {
+            if (str_starts_with($this->image, 'data:')) {
+                if (strlen($this->image) < 300) {
+                    return null;
+                }
+                return $this->image;
+            }
+            if (str_starts_with($this->image, 'http')) {
                 return $this->image;
             }
             return asset('storage/' . $this->image);

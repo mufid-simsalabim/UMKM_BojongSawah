@@ -10,7 +10,7 @@
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="flex items-center space-x-4">
                 <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-black text-2xl border border-white/30 overflow-hidden shadow-inner">
-                    @if($user->avatar)
+                    @if($user->avatar_url)
                         <img src="{{ $user->avatar_url }}" class="w-full h-full object-cover">
                     @else
                         {{ strtoupper(substr($user->name, 0, 1)) }}
@@ -78,7 +78,7 @@
                                 <img :src="avatarPreview" class="w-full h-full object-cover">
                             </template>
                             <template x-if="!avatarPreview">
-                                @if($user->avatar)
+                                @if($user->avatar_url)
                                     <img src="{{ $user->avatar_url }}" class="w-full h-full object-cover">
                                 @else
                                     <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
