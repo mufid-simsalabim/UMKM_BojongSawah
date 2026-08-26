@@ -7,6 +7,7 @@ use App\Models\UmkmProfile;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -229,21 +230,15 @@ class AdminUserController extends Controller
 
         $name = $user->name;
 
-        // Clean up files if any
-        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-            Storage::disk('public')->delete($user->avatar);
-        }
-
-        if ($user->umkmProfile) {
-            if ($user->umkmProfile->ktp_image && Storage::disk('public')->exists($user->umkmProfile->ktp_image)) {
-                Storage::disk('public')->delete($user->umkmProfile->ktp_image);
+        DB::transaction(function () use ($user) {
+            if ($user->umkmProfile) {
+                $user->umkmProfile()->delete();
             }
-            if ($user->umkmProfile->business_image && Storage::disk('public')->exists($user->umkmProfile->business_image)) {
-                Storage::disk('public')->delete($user->umkmProfile->business_image);
-            }
-        }
-
-        $user->delete();
+            $user->products()->delete();
+            $user->posts()->delete();
+            $user->notifications()->delete();
+            $user->delete();
+        });
 
         return back()->with('success', "Akun pengguna \"{$name}\" beserta seluruh datanya berhasil dihapus permanen.");
     }

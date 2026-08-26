@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -127,6 +128,31 @@ class AuthController extends Controller
 
     public function registerUmkm(Request $request)
     {
+        // Pre-cleanup: Purge any unapproved (pending/rejected/orphan) user or profile with matching email or NIK
+        if ($request->filled('email')) {
+            $existingUser = User::where('email', $request->email)->first();
+            if ($existingUser && $existingUser->status !== 'approved') {
+                DB::transaction(function () use ($existingUser) {
+                    if ($existingUser->umkmProfile) {
+                        $existingUser->umkmProfile()->delete();
+                    }
+                    $existingUser->delete();
+                });
+            }
+        }
+
+        if ($request->filled('nik')) {
+            $existingProfile = UmkmProfile::where('nik', $request->nik)->first();
+            if ($existingProfile && $existingProfile->status !== 'approved') {
+                DB::transaction(function () use ($existingProfile) {
+                    if ($existingProfile->user) {
+                        $existingProfile->user()->delete();
+                    }
+                    $existingProfile->delete();
+                });
+            }
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'nik' => ['required', 'string', 'digits:16', 'unique:umkm_profiles,nik'],
@@ -146,34 +172,36 @@ class AuthController extends Controller
         ]);
 
         try {
-            // Upload files into persistent Base64 Data URIs if provided
-            $ktpPath = $request->hasFile('ktp_image') ? ImageHelper::store($request->file('ktp_image')) : 'ktp_documents/default.jpg';
-            $businessPath = $request->hasFile('business_image') ? ImageHelper::store($request->file('business_image')) : 'business_documents/default.jpg';
+            DB::transaction(function () use ($request, $validated) {
+                // Upload files into persistent Base64 Data URIs if provided
+                $ktpPath = $request->hasFile('ktp_image') ? ImageHelper::store($request->file('ktp_image')) : 'ktp_documents/default.jpg';
+                $businessPath = $request->hasFile('business_image') ? ImageHelper::store($request->file('business_image')) : 'business_documents/default.jpg';
 
-            // Create User
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'umkm',
-                'status' => 'pending',
-            ]);
+                // Create User
+                $user = User::create([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'phone' => $validated['phone'],
+                    'password' => Hash::make($validated['password']),
+                    'role' => 'umkm',
+                    'status' => 'pending',
+                ]);
 
-            // Create UMKM Profile
-            UmkmProfile::create([
-                'user_id' => $user->id,
-                'nik' => $validated['nik'],
-                'owner_name' => $validated['name'],
-                'store_name' => $validated['store_name'],
-                'phone_wa' => $validated['phone'],
-                'category' => $validated['category'],
-                'address' => $validated['address'],
-                'description' => $validated['description'] ?? null,
-                'ktp_image' => $ktpPath ?: 'ktp_documents/default.jpg',
-                'business_image' => $businessPath ?: 'business_documents/default.jpg',
-                'status' => 'pending',
-            ]);
+                // Create UMKM Profile
+                UmkmProfile::create([
+                    'user_id' => $user->id,
+                    'nik' => $validated['nik'],
+                    'owner_name' => $validated['name'],
+                    'store_name' => $validated['store_name'],
+                    'phone_wa' => $validated['phone'],
+                    'category' => $validated['category'],
+                    'address' => $validated['address'],
+                    'description' => $validated['description'] ?? null,
+                    'ktp_image' => $ktpPath ?: 'ktp_documents/default.jpg',
+                    'business_image' => $businessPath ?: 'business_documents/default.jpg',
+                    'status' => 'pending',
+                ]);
+            });
 
             return redirect()->route('login')->with('success', 'Pendaftaran UMKM berhasil dikirim! Akun Anda saat ini berstatus PENDING dan sedang diverifikasi oleh Admin Desa Bojongsawah.');
         } catch (\Throwable $e) {
