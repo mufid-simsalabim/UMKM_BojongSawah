@@ -29,4 +29,26 @@ class UmkmProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getKtpImageUrlAttribute(): ?string
+    {
+        if ($this->ktp_image) {
+            if (str_starts_with($this->ktp_image, 'http') || str_starts_with($this->ktp_image, 'data:')) {
+                return $this->ktp_image;
+            }
+            return asset('storage/' . $this->ktp_image);
+        }
+        return null;
+    }
+
+    public function getBusinessImageUrlAttribute(): ?string
+    {
+        if ($this->business_image) {
+            if (str_starts_with($this->business_image, 'http') || str_starts_with($this->business_image, 'data:')) {
+                return $this->business_image;
+            }
+            return asset('storage/' . $this->business_image);
+        }
+        return null;
+    }
 }

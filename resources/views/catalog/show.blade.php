@@ -28,7 +28,7 @@
             
             <!-- Left: Image Section (Cols 6) -->
             <div class="md:col-span-6 bg-slate-100 p-6 flex items-center justify-center min-h-[350px]">
-                <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/sawah-hero.jpg') }}" 
+                <img src="{{ $product->image_url ?: asset('images/sawah-hero.jpg') }}" 
                      alt="{{ $product->name }}" 
                      onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';"
                      class="max-h-[420px] w-full object-contain rounded-2xl shadow-md">

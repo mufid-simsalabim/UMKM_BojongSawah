@@ -60,7 +60,7 @@
                 
                 <!-- Product Image & Badges -->
                 <div class="relative bg-slate-100 h-52 overflow-hidden">
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/sawah-hero.jpg') }}" 
+                    <img src="{{ $product->image_url ?: asset('images/sawah-hero.jpg') }}" 
                          alt="{{ $product->name }}" 
                          onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">

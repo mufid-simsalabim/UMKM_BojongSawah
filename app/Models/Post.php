@@ -33,4 +33,15 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->latest();
     }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if ($this->image) {
+            if (str_starts_with($this->image, 'http') || str_starts_with($this->image, 'data:')) {
+                return $this->image;
+            }
+            return asset('storage/' . $this->image);
+        }
+        return null;
+    }
 }

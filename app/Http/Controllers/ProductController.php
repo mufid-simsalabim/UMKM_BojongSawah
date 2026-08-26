@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelper;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -69,7 +70,7 @@ class ProductController extends Controller
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
         ]);
 
-        $imagePath = $request->file('image')->store('product_images', 'public');
+        $imagePath = ImageHelper::store($request->file('image'));
 
         $product = Product::create([
             'user_id' => Auth::id(),
@@ -109,10 +110,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $validated['image'] = $request->file('image')->store('product_images', 'public');
+            $validated['image'] = ImageHelper::store($request->file('image'));
         }
 
         $validated['slug'] = Str::slug($validated['name']) . '-' . time();

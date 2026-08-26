@@ -122,7 +122,7 @@
                                     <div class="flex items-center space-x-3">
                                         <div class="w-10 h-10 rounded-2xl bg-slate-800 text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden shadow-sm">
                                             @if($u->avatar)
-                                                <img src="{{ asset('storage/' . $u->avatar) }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                                <img src="{{ $u->avatar_url }}" class="w-full h-full object-cover">
                                             @else
                                                 {{ strtoupper(substr($u->name, 0, 1)) }}
                                             @endif

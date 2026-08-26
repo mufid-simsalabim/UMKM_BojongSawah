@@ -37,4 +37,15 @@ class Product extends Model
     {
         return 'Rp ' . number_format($this->price, 0, ',', '.');
     }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if ($this->image) {
+            if (str_starts_with($this->image, 'http') || str_starts_with($this->image, 'data:')) {
+                return $this->image;
+            }
+            return asset('storage/' . $this->image);
+        }
+        return null;
+    }
 }

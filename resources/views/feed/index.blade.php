@@ -89,7 +89,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm overflow-hidden">
                                 @if(Auth::user()->avatar)
-                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover">
+                                    <img src="{{ Auth::user()->avatar_url }}" class="w-full h-full object-cover">
                                 @else
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                 @endif
@@ -165,7 +165,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-primary-800 text-white flex items-center justify-center font-black text-base shadow-sm overflow-hidden">
                                 @if(optional($post->user)->avatar)
-                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <img src="{{ $post->user->avatar_url }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 @else
                                     {{ strtoupper(substr($storeName, 0, 1)) }}
                                 @endif
@@ -216,7 +216,7 @@
                             <div class="mt-3 p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
                                     @if($post->product->image)
-                                        <img src="{{ asset('storage/' . $post->product->image) }}" class="h-12 w-12 object-cover rounded-xl shadow-sm" onerror="this.style.display='none'">
+                                        <img src="{{ $post->product->image_url }}" class="h-12 w-12 object-cover rounded-xl shadow-sm" onerror="this.style.display='none'">
                                     @endif
                                     <div>
                                         <p class="text-xs text-slate-500 font-bold uppercase">Produk Terkait</p>
@@ -233,7 +233,7 @@
                     <!-- Post Image Display -->
                     @if($post->image)
                         <div class="bg-slate-100 max-h-[450px] overflow-hidden">
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="Foto Post" class="w-full h-auto object-cover max-h-[450px] hover:scale-[1.01] transition-transform duration-300" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';">
+                            <img src="{{ $post->image_url }}" alt="Foto Post" class="w-full h-auto object-cover max-h-[450px] hover:scale-[1.01] transition-transform duration-300">
                         </div>
                     @endif
 

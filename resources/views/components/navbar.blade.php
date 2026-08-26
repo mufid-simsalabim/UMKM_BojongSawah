@@ -116,7 +116,7 @@
                         <button @click="dropdownOpen = !dropdownOpen" class="flex items-center space-x-2 p-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
                             <div class="w-8 h-8 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-sm overflow-hidden">
                                 @if(Auth::user()->avatar)
-                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <img src="{{ Auth::user()->avatar_url }}" class="w-full h-full object-cover">
                                 @else
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                 @endif

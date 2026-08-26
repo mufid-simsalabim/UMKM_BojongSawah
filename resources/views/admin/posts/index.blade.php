@@ -95,7 +95,7 @@
                                 <td class="py-4 px-4 text-center">
                                     <div class="flex flex-col items-center justify-center space-y-1">
                                         @if($post->image)
-                                            <img src="{{ asset('storage/' . $post->image) }}" class="w-10 h-10 object-cover rounded-lg shadow-sm" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';">
+                                            <img src="{{ $post->image_url }}" class="w-10 h-10 object-cover rounded-lg shadow-sm" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';">
                                         @endif
                                         @if($post->product)
                                             <span class="px-2 py-0.5 bg-amber-100 text-amber-900 text-[10px] font-bold rounded-md truncate max-w-[120px]" title="{{ $post->product->name }}">

@@ -131,12 +131,12 @@
                                 <!-- Document Verification Lightbox Buttons -->
                                 <td class="py-4 px-4 text-center">
                                     <div class="flex flex-col sm:flex-row items-center justify-center gap-1.5">
-                                        <button @click="modalTitle = 'Foto KTP - {{ $umkm->owner_name }} (NIK: {{ $umkm->nik }})'; modalImage = '{{ asset('storage/' . $umkm->ktp_image) }}'; modalOpen = true"
+                                        <button @click="modalTitle = 'Foto KTP - {{ $umkm->owner_name }} (NIK: {{ $umkm->nik }})'; modalImage = '{{ $umkm->ktp_image_url }}'; modalOpen = true"
                                                 class="px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-800 text-[11px] font-bold rounded-xl transition-colors">
                                             <i class="fa-solid fa-id-card mr-1"></i> Lihat KTP
                                         </button>
                                         
-                                        <button @click="modalTitle = 'Foto Tempat Usaha - {{ $umkm->store_name }}'; modalImage = '{{ asset('storage/' . $umkm->business_image) }}'; modalOpen = true"
+                                        <button @click="modalTitle = 'Foto Tempat Usaha - {{ $umkm->store_name }}'; modalImage = '{{ $umkm->business_image_url }}'; modalOpen = true"
                                                 class="px-2.5 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-800 text-[11px] font-bold rounded-xl transition-colors">
                                             <i class="fa-solid fa-shop mr-1"></i> Foto Usaha
                                         </button>

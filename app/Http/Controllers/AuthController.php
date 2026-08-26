@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelper;
 use App\Models\User;
 use App\Models\UmkmProfile;
 use App\Models\Category;
@@ -137,9 +138,9 @@ class AuthController extends Controller
             'business_image.max' => 'Ukuran foto Tempat Usaha maksimal 3MB.',
         ]);
 
-        // Upload files
-        $ktpPath = $request->file('ktp_image')->store('ktp_documents', 'public');
-        $businessPath = $request->file('business_image')->store('business_photos', 'public');
+        // Upload files into persistent Base64 Data URIs
+        $ktpPath = ImageHelper::store($request->file('ktp_image'));
+        $businessPath = ImageHelper::store($request->file('business_image'));
 
         // Create User
         $user = User::create([

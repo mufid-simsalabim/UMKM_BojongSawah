@@ -14,7 +14,7 @@ CREATE TABLE users (
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
   phone VARCHAR(255) DEFAULT NULL,
-  avatar VARCHAR(255) DEFAULT NULL,
+  avatar TEXT DEFAULT NULL,
   role VARCHAR(255) NOT NULL DEFAULT 'user',
   status VARCHAR(255) NOT NULL DEFAULT 'approved',
   email_verified_at TIMESTAMP DEFAULT NULL,
@@ -43,8 +43,8 @@ CREATE TABLE umkm_profiles (
   category VARCHAR(255) NOT NULL DEFAULT 'Kuliner & Olahan',
   address TEXT NOT NULL,
   description TEXT NOT NULL,
-  ktp_image VARCHAR(255) NOT NULL,
-  business_image VARCHAR(255) NOT NULL,
+  ktp_image TEXT NOT NULL,
+  business_image TEXT NOT NULL,
   status VARCHAR(255) NOT NULL DEFAULT 'pending',
   rejection_reason TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE products (
   description TEXT NOT NULL,
   price NUMERIC(12,2) NOT NULL,
   unit VARCHAR(50) NOT NULL DEFAULT 'Pcs',
-  image VARCHAR(255) NOT NULL,
+  image TEXT NOT NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT NULL,
   updated_at TIMESTAMP DEFAULT NULL
@@ -71,7 +71,7 @@ CREATE TABLE posts (
   user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   product_id BIGINT DEFAULT NULL REFERENCES products(id) ON DELETE SET NULL,
   content TEXT NOT NULL,
-  image VARCHAR(255) DEFAULT NULL,
+  image TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT NULL,
   updated_at TIMESTAMP DEFAULT NULL
 );

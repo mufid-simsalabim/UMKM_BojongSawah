@@ -91,7 +91,7 @@
                         @forelse($products as $p)
                             <tr class="hover:bg-slate-50">
                                 <td class="py-4 px-6 flex items-center space-x-3">
-                                    <img src="{{ $p->image ? asset('storage/' . $p->image) : asset('images/sawah-hero.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-12 h-12 object-cover rounded-xl shadow-sm">
+                                    <img src="{{ $p->image_url ?: asset('images/sawah-hero.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-12 h-12 object-cover rounded-xl shadow-sm">
                                     <div>
                                         <p class="font-bold text-slate-900 text-sm">{{ $p->name }}</p>
                                         <p class="text-[11px] text-slate-400 line-clamp-1">{{ Str::limit($p->description, 50) }}</p>
@@ -157,7 +157,7 @@
                     <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-start justify-between space-x-3">
                         <div class="flex items-start space-x-3 min-w-0 flex-1">
                             @if($post->image)
-                                <img src="{{ asset('storage/' . $post->image) }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-16 h-16 object-cover rounded-xl shadow-sm shrink-0">
+                                <img src="{{ $post->image_url }}" onerror="this.onerror=null; this.src='{{ asset('images/sawah-hero.jpg') }}';" class="w-16 h-16 object-cover rounded-xl shadow-sm shrink-0">
                             @endif
                             <div class="flex-1 min-w-0">
                                 <p class="text-xs text-slate-400 font-bold"><i class="fa-regular fa-clock mr-1"></i>{{ $post->created_at->diffForHumans() }}</p>

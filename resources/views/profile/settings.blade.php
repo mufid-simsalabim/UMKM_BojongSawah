@@ -11,7 +11,7 @@
             <div class="flex items-center space-x-4">
                 <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-black text-2xl border border-white/30 overflow-hidden shadow-inner">
                     @if($user->avatar)
-                        <img src="{{ asset('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                        <img src="{{ $user->avatar_url }}" class="w-full h-full object-cover">
                     @else
                         {{ strtoupper(substr($user->name, 0, 1)) }}
                     @endif
@@ -79,7 +79,7 @@
                             </template>
                             <template x-if="!avatarPreview">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                                    <img src="{{ $user->avatar_url }}" class="w-full h-full object-cover">
                                 @else
                                     <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                 @endif

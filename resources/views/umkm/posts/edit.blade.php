@@ -69,7 +69,7 @@
                 @if($post->image)
                     <div class="mb-3 p-3 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <img src="{{ asset('storage/' . $post->image) }}" class="h-16 w-16 object-cover rounded-xl shadow-sm" onerror="this.src='{{ asset('images/sawah-hero.jpg') }}';">
+                            <img src="{{ $post->image_url }}" class="h-16 w-16 object-cover rounded-xl shadow-sm" onerror="this.src='{{ asset('images/sawah-hero.jpg') }}';">
                             <div>
                                 <p class="text-xs font-bold text-slate-800">Foto Saat Ini</p>
                                 <p class="text-[10px] text-slate-400">Pilih "Hapus Foto" di bawah jika ingin menghilangkan foto.</p>

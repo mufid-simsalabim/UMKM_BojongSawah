@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelper;
 use App\Models\User;
 use App\Models\UmkmProfile;
 use App\Models\Product;
@@ -115,7 +116,7 @@ class AdminController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('post_images', 'public');
+            $imagePath = ImageHelper::store($request->file('image'));
         }
 
         Post::create([
@@ -149,17 +150,11 @@ class AdminController extends Controller
         $imagePath = $post->image;
 
         if ($request->boolean('remove_image')) {
-            if ($post->image && Storage::disk('public')->exists($post->image)) {
-                Storage::disk('public')->delete($post->image);
-            }
             $imagePath = null;
         }
 
         if ($request->hasFile('image')) {
-            if ($post->image && Storage::disk('public')->exists($post->image)) {
-                Storage::disk('public')->delete($post->image);
-            }
-            $imagePath = $request->file('image')->store('post_images', 'public');
+            $imagePath = ImageHelper::store($request->file('image'));
         }
 
         $post->update([

@@ -17,7 +17,7 @@
             </div>
 
             <form action="{{ route('umkm.products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
-                  x-data="{ imagePreview: '{{ $product->image ? asset('storage/' . $product->image) : null }}' }"
+                  x-data="{ imagePreview: '{{ $product->image_url }}' }"
                   class="space-y-5">
                 @csrf
                 @method('PUT')
