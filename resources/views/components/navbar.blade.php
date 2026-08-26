@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="max-h-72 overflow-y-auto divide-y divide-slate-100">
-                                @forelse(Auth::user()->notifications()->take(5)->get() as $n)
+                                @forelse(Auth::user()->getRecentNotifications() as $n)
                                     <form action="{{ route('notifications.read', $n->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="w-full text-left p-3 hover:bg-slate-50 transition-colors flex items-start space-x-3 {{ $n->is_read ? 'opacity-75' : 'bg-emerald-50/40' }}">

@@ -95,6 +95,17 @@ CREATE TABLE likes (
   CONSTRAINT likes_post_id_user_id_unique UNIQUE (post_id, user_id)
 );
 
+CREATE TABLE notifications (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  url VARCHAR(255) DEFAULT NULL,
+  is_read BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NULL,
+  updated_at TIMESTAMP DEFAULT NULL
+);
+
 CREATE TABLE cache (
   key VARCHAR(255) PRIMARY KEY,
   value TEXT NOT NULL,

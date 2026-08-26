@@ -70,9 +70,22 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Notification::class)->latest();
     }
 
+    public function getRecentNotifications()
+    {
+        try {
+            return $this->notifications()->take(5)->get();
+        } catch (\Throwable $e) {
+            return collect();
+        }
+    }
+
     public function unreadNotificationsCount(): int
     {
-        return $this->notifications()->where('is_read', false)->count();
+        try {
+            return $this->notifications()->where('is_read', false)->count();
+        } catch (\Throwable $e) {
+            return 0;
+        }
     }
 
     public function isAdmin(): bool
