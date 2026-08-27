@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\ImageHelper;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +85,34 @@ class ProductController extends Controller
             'image' => $imagePath,
             'is_active' => true,
         ]);
+
+        // Send notifications to ALL users (Admin, Warga/Pengguna, and Sesama UMKM)
+        try {
+            $storeName = optional(Auth::user()->umkmProfile)->store_name ?? Auth::user()->name;
+            $formattedPrice = number_format($product->price, 0, ',', '.');
+            $allUserIds = User::where('id', '!=', Auth::id())->pluck('id');
+
+            $notificationsData = [];
+            $now = now();
+
+            foreach ($allUserIds as $userId) {
+                $notificationsData[] = [
+                    'user_id' => $userId,
+                    'title' => 'Produk Baru dari ' . $storeName,
+                    'message' => $storeName . ' merilis produk baru "' . $product->name . '" seharga Rp ' . $formattedPrice . ' / ' . $product->unit . '. Yuk lihat di Katalog!',
+                    'url' => route('catalog.show', $product->slug),
+                    'is_read' => false,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            if (!empty($notificationsData)) {
+                Notification::insert($notificationsData);
+            }
+        } catch (\Throwable $e) {
+            // Safe fallback
+        }
 
         return redirect()->route('umkm.dashboard')->with('success', "Produk \"{$product->name}\" berhasil ditambahkan ke Katalog UMKM.");
     }
