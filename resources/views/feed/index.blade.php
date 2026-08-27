@@ -88,7 +88,7 @@
                     <div x-data="{ openComposer: false, imagePreview: null }" class="bg-white rounded-3xl shadow-md border border-slate-100 p-5 space-y-4">
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm overflow-hidden">
-                                @if(Auth::user()->avatar)
+                                @if(Auth::user()->avatar_url)
                                     <img src="{{ Auth::user()->avatar_url }}" class="w-full h-full object-cover">
                                 @else
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -164,7 +164,7 @@
                     <div class="p-5 flex items-center justify-between border-b border-slate-50">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-primary-800 text-white flex items-center justify-center font-black text-base shadow-sm overflow-hidden">
-                                @if(optional($post->user)->avatar)
+                                @if(optional($post->user)->avatar_url)
                                     <img src="{{ $post->user->avatar_url }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 @else
                                     {{ strtoupper(substr($storeName, 0, 1)) }}
@@ -274,8 +274,8 @@
                                         <div class="flex items-start justify-between space-x-3">
                                             <div class="flex items-start space-x-3">
                                                 <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden mt-0.5">
-                                                    @if(optional($comment->user)->avatar)
-                                                        <img src="{{ asset('storage/' . $comment->user->avatar) }}" class="w-full h-full object-cover">
+                                                    @if(optional($comment->user)->avatar_url)
+                                                        <img src="{{ $comment->user->avatar_url }}" class="w-full h-full object-cover">
                                                     @else
                                                         {{ strtoupper(substr(optional($comment->user)->name ?? 'W', 0, 1)) }}
                                                     @endif
@@ -325,8 +325,8 @@
                                                 <div class="p-3 bg-white/90 rounded-2xl border border-slate-200/60 shadow-2xs flex items-start justify-between space-x-3">
                                                     <div class="flex items-start space-x-2.5">
                                                         <div class="w-7 h-7 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-[11px] shrink-0 overflow-hidden mt-0.5">
-                                                            @if(optional($reply->user)->avatar)
-                                                                <img src="{{ asset('storage/' . $reply->user->avatar) }}" class="w-full h-full object-cover">
+                                                            @if(optional($reply->user)->avatar_url)
+                                                                <img src="{{ $reply->user->avatar_url }}" class="w-full h-full object-cover">
                                                             @else
                                                                 {{ strtoupper(substr(optional($reply->user)->name ?? 'W', 0, 1)) }}
                                                             @endif
